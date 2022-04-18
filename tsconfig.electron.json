@@ -9,6 +9,8 @@
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "esModuleInterop": true,
+        //"experimentalDecorators": true,
+        //"emitDecoratorMetadata": true,
         "paths": {
             "*": ["node_modules/*"]
         },
