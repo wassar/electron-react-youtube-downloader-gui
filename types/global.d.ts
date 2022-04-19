@@ -8,9 +8,7 @@ declare global {
     }
 
     type downloadInfoResponse = videoInfo | downloadError;
-
     export type ResponseIncomingMessage = IncomingMessage;
-
     export type tmpFile = FileResult;
 
     export interface downloadResponse {
@@ -23,5 +21,28 @@ declare global {
         error?: string;
         file?: string;
     }
+
+    export interface appSettings {
+        ui_mode: "system" | "dark" | "light";
+        downloads_path: string;
+    }
+
+    export interface downloadHistory {
+        id?: number;
+        videoId: string;
+        video_url: string;
+        title: string;
+        lengthSeconds: number;
+        viewCount: number;
+        author: string;
+        thumbnails: string;
+        channelId: string;
+        downloadedAt: number;
+        format: string;
+        type: string;
+    }
+
+    export interface vidDetails extends MoreVideoDetails {}
+    export interface vidInfo extends videoInfo {}
 }
 export {};

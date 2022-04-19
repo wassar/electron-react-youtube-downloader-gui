@@ -1,25 +1,10 @@
-import sqlite from "sqlite3";
 import knex, { Knex } from "knex";
 import path from "path";
-
-import { MoreVideoDetails } from "ytdl-core";
-import { table } from "console";
-
-// id
-// videoId
-// video_url
-// title
-// lengthSeconds
-// viewCount
-// author
-// thumbnails
-// channelId
-// downloadedAt
-// format
-// type
+import { defaults } from "../utils";
 
 export class Store {
     private db: Knex;
+
     constructor() {
         this.db = knex({
             client: "sqlite3",
@@ -30,7 +15,7 @@ export class Store {
         });
     }
 
-    async init() {
+    async init(): Promise<void> {
         if (!(await this.db.schema.hasTable("history"))) {
             await this.db.schema.createTable("history", (table) => {
                 table.increments("id").primary().unique();
@@ -50,27 +35,37 @@ export class Store {
 
         if (!(await this.db.schema.hasTable("app_settings"))) {
             await this.db.schema.createTable("app_settings", (table) => {
+                table.increments("id").primary().unique();
                 table.string("ui_mode");
                 table.string("downloads_path");
             });
         }
+
+        if (!(await this.getSettings()))
+            await this.db("app_settings").insert(defaults);
     }
 
-    async getSettings() {
-        return await this.db("history").select("*");
+    async getSettings(): Promise<appSettings> {
+        return await this.db("app_settings").select().first();
     }
 
-    updateSettings() {
-        //this.db("settings").update("")
+    async updateSettings(newSettings: Partial<appSettings>) {
+        await this.db("app_settings").update(newSettings).where({ id: 1 });
     }
 
-    async getHistory() {
-        const history = await this.db("history").select("*");
-        console.log("HH", history);
-        return history;
+    async getHistory(): Promise<downloadHistory[]> {
+        return await this.db("history").select("*").orderBy("id", "desc");
     }
 
-    pushHistory() {}
+    async setHistoryItem(download: downloadHistory): Promise<void> {
+        await this.db("history").insert(download);
+    }
 
-    deleteHistoryItem() {}
+    async deleteHistoryItem(id: number): Promise<void> {
+        await this.db("history").del().where({ id });
+    }
+
+    async close(): Promise<void> {
+        await this.db.destroy();
+    }
 }
