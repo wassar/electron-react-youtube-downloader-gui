@@ -1,10 +1,10 @@
-import { useMemo, FC, ReactChild } from "react";
+import { useMemo, FC, ReactNode } from "react";
 import { useMediaQuery, ThemeProvider, CssBaseline } from "@mui/material";
 import { useSelector } from "react-redux";
 import { themeManager } from "./utils";
 
 interface themeProps {
-    children?: React.ReactNode;
+    children?: ReactNode;
 }
 
 const Theme: FC<themeProps> = ({ children }) => {
@@ -16,8 +16,6 @@ const Theme: FC<themeProps> = ({ children }) => {
             : useMediaQuery("(prefers-color-scheme: dark)")
             ? "dark"
             : "light";
-
-    console.log({ uiMode });
 
     const theme = useMemo(() => themeManager(uiMode), [ui_mode, uiMode]);
 

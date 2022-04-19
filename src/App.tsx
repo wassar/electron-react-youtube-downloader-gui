@@ -1,10 +1,11 @@
 import Theme from "./theme";
+import { HomeScreen } from "./components";
 
 function App() {
     return (
-        <div className="App">
-            <Theme></Theme>
-        </div>
+        <Theme>
+            <HomeScreen />
+        </Theme>
     );
 }
 
