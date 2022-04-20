@@ -7,10 +7,6 @@ declare global {
         error: string;
     }
 
-    type downloadInfoResponse = videoInfo | downloadError;
-    export type ResponseIncomingMessage = IncomingMessage;
-    export type tmpFile = FileResult;
-
     export interface downloadResponse {
         error?: string;
         tmpFile: FileResult;
@@ -28,7 +24,7 @@ declare global {
     }
 
     export interface downloadHistory {
-        id?: number;
+        id: number;
         videoId: string;
         video_url: string;
         title: string;
@@ -44,5 +40,9 @@ declare global {
 
     export interface vidDetails extends MoreVideoDetails {}
     export interface vidInfo extends videoInfo {}
+
+    export type downloadInfoResponse = videoInfo | downloadError;
+    export type ResponseIncomingMessage = IncomingMessage;
+    export type tmpFile = FileResult;
 }
 export {};
