@@ -7,10 +7,6 @@ declare global {
         error: string;
     }
 
-    type downloadInfoResponse = videoInfo | downloadError;
-    export type ResponseIncomingMessage = IncomingMessage;
-    export type tmpFile = FileResult;
-
     export interface downloadResponse {
         error?: string;
         tmpFile: FileResult;
@@ -37,12 +33,20 @@ declare global {
         author: string;
         thumbnails: string;
         channelId: string;
-        downloadedAt: number;
+        downloaded_at: number;
         format: string;
         type: string;
+        download_path?: string;
     }
 
     export interface vidDetails extends MoreVideoDetails {}
     export interface vidInfo extends videoInfo {}
+
+    export interface downloadInfoResponse extends Partial<videoInfo> {
+        error?: string;
+    }
+
+    export type ResponseIncomingMessage = IncomingMessage;
+    export type tmpFile = FileResult;
 }
 export {};

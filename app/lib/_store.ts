@@ -29,7 +29,8 @@ export class Store {
                 table.string("channelId");
                 table.string("format");
                 table.string("type");
-                table.timestamp("downloadedAt");
+                table.timestamp("downloaded_at");
+                table.string("download_path");
             });
         }
 
