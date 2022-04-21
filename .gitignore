@@ -26,3 +26,5 @@ test
 *.sw?
 *.mp*
 *.webm
+
+*.dummy*
