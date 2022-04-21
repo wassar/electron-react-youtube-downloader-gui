@@ -5,6 +5,7 @@ import {
     DeleteOutline as DeleteIcon,
     OpenInBrowser as VisitVideoIcon,
     FolderOpen as OpenInFolderIcon,
+    PlayArrow as PlayIcon,
 } from "@mui/icons-material";
 
 import { IconMenuItem as ActionMenuItem } from "..";
@@ -36,13 +37,18 @@ const CardActions: FC<CardActionsProps> = () => {
                 onClose={handleMenuClose}
             >
                 <ActionMenuItem
+                    onClick={() => handleAction("PLAY_DOWNLOAD")}
+                    text="Play"
+                    Icon={<PlayIcon />}
+                />
+                <ActionMenuItem
                     onClick={() => handleAction("OPEN_FOLDER")}
-                    text="Open in Folder"
+                    text="Reveal in folder"
                     Icon={<OpenInFolderIcon />}
                 />
                 <ActionMenuItem
                     onClick={() => handleAction("VISIT_VIDEO_PAGE")}
-                    text="Visit Video Page"
+                    text="Open in browser"
                     Icon={<VisitVideoIcon />}
                 />
                 <ActionMenuItem

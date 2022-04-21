@@ -28,14 +28,17 @@ const DownloadCard: React.FC<DownloadCardProps> = ({ download }) => {
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                paddingY={1.3}
+                paddingY={0.8}
+                paddingX={0.2}
             >
-                <CardThumbnail
-                    title={title}
-                    length={lengthSeconds}
-                    thumbnail={thumbnails[0].url}
-                    width={165 * 0.6}
-                />
+                <Box sx={{ borderRadius: 0.5, overflow: "hidden" }}>
+                    <CardThumbnail
+                        title={title}
+                        length={lengthSeconds}
+                        thumbnail={thumbnails[0].url}
+                        width={165 * 0.6}
+                    />
+                </Box>
                 <Box sx={{ flexGrow: 1, ml: 1 }}>
                     <CardBody
                         title={title}

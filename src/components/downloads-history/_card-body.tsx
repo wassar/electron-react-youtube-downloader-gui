@@ -12,11 +12,9 @@ import {
 import { IconMetadataItem as MetaItem } from "..";
 import { timeAgo } from "../../utils";
 
-import { Author } from "ytdl-core";
-
 interface DownloadCardBodyProps {
     title: string;
-    author: Author;
+    author: vidAuthor;
     views: number;
     downloadedAt: number;
     format: string;
