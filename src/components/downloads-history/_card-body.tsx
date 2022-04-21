@@ -33,9 +33,18 @@ const DownloadCardBody: React.FC<DownloadCardBodyProps> = ({
     const [downloadDate] = useState(timeAgo(downloadedAt));
     return (
         <>
-            <Typography variant="subtitle2" title={title}>
+            <Typography
+                sx={{
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                }}
+                variant="subtitle2"
+                title={title}
+            >
                 {title}
             </Typography>
+
             <Box display="flex" flexWrap="wrap">
                 <MetaItem>
                     <AuthorIcon fontSize="small" />
@@ -43,6 +52,7 @@ const DownloadCardBody: React.FC<DownloadCardBodyProps> = ({
                         underline="none"
                         target="_blank"
                         href={author.channel_url}
+                        color="primary"
                     >
                         {author.name}
                     </Link>

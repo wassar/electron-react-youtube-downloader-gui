@@ -31,15 +31,25 @@ const DownloadCard: React.FC<DownloadCardProps> = ({ download }) => {
                 paddingY={0.8}
                 paddingX={0.2}
             >
-                <Box sx={{ borderRadius: 0.5, overflow: "hidden" }}>
+                <Box
+                    sx={{
+                        borderRadius: 0.5,
+                        width: 165 * 0.6,
+                    }}
+                >
                     <CardThumbnail
                         title={title}
                         length={lengthSeconds}
                         thumbnail={thumbnails[0].url}
-                        width={165 * 0.6}
                     />
                 </Box>
-                <Box sx={{ flexGrow: 1, ml: 1 }}>
+                <Box
+                    sx={{
+                        flex: 1,
+                        ml: 1,
+                        overflow: "hidden",
+                    }}
+                >
                     <CardBody
                         title={title}
                         author={author}

@@ -6,14 +6,14 @@ interface VideoThumbnailProps {
     title: string;
     thumbnail: string;
     length: number;
-    width: number | string;
+    width?: number | string;
 }
 
 export const VideoThumbnail: React.FC<VideoThumbnailProps> = ({
     title,
     thumbnail,
     length,
-    width,
+    width = "100%",
 }) => {
     const [vidLength] = useState(
         moment

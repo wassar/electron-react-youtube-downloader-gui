@@ -35,6 +35,7 @@ const CardActions: FC<CardActionsProps> = () => {
                 anchorEl={anchor}
                 open={Boolean(anchor)}
                 onClose={handleMenuClose}
+                sx={{ "& ul": { padding: "0 !important" } }}
             >
                 <ActionMenuItem
                     onClick={() => handleAction("PLAY_DOWNLOAD")}

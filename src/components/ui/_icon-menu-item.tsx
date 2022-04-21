@@ -3,6 +3,7 @@ import {
     ListItemIcon,
     Typography,
     MenuItemProps,
+    Divider,
 } from "@mui/material";
 
 interface MenuActionItemProps extends MenuItemProps {
@@ -27,5 +28,6 @@ export const IconMenuItem: React.FC<MenuActionItemProps> = ({
     >
         <ListItemIcon>{Icon}</ListItemIcon>
         <Typography> {text}</Typography>
+        <Divider component="li" />
     </MenuItem>
 );
