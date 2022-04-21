@@ -9,15 +9,14 @@ interface themeProps {
 
 const Theme: FC<themeProps> = ({ children }) => {
     const { ui_mode } = useSelector((store: RootState) => store.appSettings);
+    const systemMode = useMediaQuery("(prefers-color-scheme: dark)")
+        ? "dark"
+        : "light";
 
-    const uiMode =
-        ui_mode !== "system"
-            ? ui_mode
-            : useMediaQuery("(prefers-color-scheme: dark)")
-            ? "dark"
-            : "light";
-
-    const theme = useMemo(() => themeManager(uiMode), [ui_mode, uiMode]);
+    const theme = useMemo(
+        () => themeManager(ui_mode === "system" ? systemMode : ui_mode),
+        [ui_mode]
+    );
 
     return (
         <ThemeProvider theme={theme}>

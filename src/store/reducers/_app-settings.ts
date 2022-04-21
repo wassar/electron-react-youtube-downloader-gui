@@ -13,7 +13,7 @@ interface actionProps {
 export const appSettings = (state = initalState, action: actionProps) => {
     switch (action.type) {
         case UPDATE_SETTINGS:
-            return { ...state, ...action.settings };
+            return { ...state, ...action.settings! };
         case RESTORE_SETTINGS:
             return initalState;
         default:
