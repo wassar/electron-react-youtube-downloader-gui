@@ -5,7 +5,9 @@ import {
     UPDATE_DOWNLOAD_HISTORY,
 } from "../actions/types";
 
-const initialState: downloadHistory[] = [] as downloadHistory[];
+import dummyHistory from "../../download-history.dummy.json";
+
+const initialState: downloadHistory[] = dummyHistory as downloadHistory[];
 
 interface action {
     type: string;

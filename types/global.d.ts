@@ -46,7 +46,6 @@ declare global {
         error?: string;
     }
 
-    //export type downloadInfoResponse = videoInfo | downloadError;
     export type ResponseIncomingMessage = IncomingMessage;
     export type tmpFile = FileResult;
 }

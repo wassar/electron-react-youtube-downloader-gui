@@ -1,15 +1,13 @@
 import { useSelector } from "react-redux";
+import Card from "./_download-card";
 
-interface DownloadHistoryProps {}
-
-const DownloadHistory: React.FC<DownloadHistoryProps> = () => {
+const DownloadHistory: React.FC = () => {
     const { downloadHistory } = useSelector((store: RootState) => store);
 
     return (
         <>
-            APP HOME
             {downloadHistory.map((download) => (
-                <>{download.title}</>
+                <Card key={download.id} download={download} />
             ))}
         </>
     );
