@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
     ToggleButton as Button,
@@ -11,8 +10,12 @@ import {
     FormLabel,
     Typography,
 } from "@mui/material";
-
-import { Folder as FolderIcon } from "@mui/icons-material";
+import {
+    Folder as FolderIcon,
+    DarkModeOutlined as DarkModeIcon,
+    LightModeOutlined as LightModeIcon,
+    Brightness4Outlined as SystemModeIcon,
+} from "@mui/icons-material";
 
 import { updateSettings } from "../../store/actions";
 
@@ -32,7 +35,10 @@ const Settings: React.FC<SettingsProps> = () => {
         console.log("DOWNLOADS PATH CHANGE");
     };
     return (
-        <Box width="100%" sx={{ "& label": { mb: 0.5, ml: 0.5 } }}>
+        <Box
+            width="100%"
+            sx={{ "& label": { mb: 0.5, ml: 0.5 }, "& svg": { mr: 1 } }}
+        >
             <FormControl fullWidth>
                 <FormLabel>
                     <Typography variant="caption">Mode</Typography>
@@ -44,9 +50,18 @@ const Settings: React.FC<SettingsProps> = () => {
                     value={ui_mode}
                     onChange={handleModeChange}
                 >
-                    <Button value="light">Light</Button>
-                    <Button value="system">System</Button>
-                    <Button value="dark">Dark</Button>
+                    <Button value="light">
+                        <LightModeIcon fontSize="small" />
+                        Light
+                    </Button>
+                    <Button value="system">
+                        <SystemModeIcon fontSize="small" />
+                        System
+                    </Button>
+                    <Button value="dark">
+                        <DarkModeIcon fontSize="small" />
+                        Dark
+                    </Button>
                 </ButtonGroup>
             </FormControl>
             <FormControl fullWidth sx={{ mt: 4 }}>
