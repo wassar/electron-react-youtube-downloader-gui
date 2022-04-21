@@ -3,11 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import {
     ToggleButton as Button,
     ToggleButtonGroup as ButtonGroup,
+    OutlinedInput,
+    InputAdornment,
+    IconButton,
     Box,
     FormControl,
     FormLabel,
     Typography,
 } from "@mui/material";
+
+import { Folder as FolderIcon } from "@mui/icons-material";
 
 import { updateSettings } from "../../store/actions";
 
@@ -15,14 +20,19 @@ interface SettingsProps {}
 
 const Settings: React.FC<SettingsProps> = () => {
     const dispatch = useDispatch();
-    const uiMode = useSelector((store: RootState) => store.appSettings.ui_mode);
+    const { ui_mode, downloads_path } = useSelector(
+        (store: RootState) => store.appSettings
+    );
 
     const handleModeChange = (e: any, newMode: appSettings["ui_mode"]) => {
-        dispatch(updateSettings({ ui_mode: newMode || uiMode }));
+        dispatch(updateSettings({ ui_mode: newMode || ui_mode }));
     };
 
+    const handleDonwloadsPath = () => {
+        console.log("DOWNLOADS PATH CHANGE");
+    };
     return (
-        <Box width="100%">
+        <Box width="100%" sx={{ "& label": { mb: 0.5, ml: 0.5 } }}>
             <FormControl fullWidth>
                 <FormLabel>
                     <Typography variant="caption">Mode</Typography>
@@ -31,7 +41,7 @@ const Settings: React.FC<SettingsProps> = () => {
                     fullWidth
                     exclusive
                     color="primary"
-                    value={uiMode}
+                    value={ui_mode}
                     onChange={handleModeChange}
                 >
                     <Button value="light">Light</Button>
@@ -43,6 +53,19 @@ const Settings: React.FC<SettingsProps> = () => {
                 <FormLabel>
                     <Typography variant="caption">Downloads Folder</Typography>
                 </FormLabel>
+                <OutlinedInput
+                    value={downloads_path}
+                    onChange={handleDonwloadsPath}
+                    id="downloads-dir-input"
+                    disabled
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton onClick={handleDonwloadsPath}>
+                                <FolderIcon />
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                />
             </FormControl>
         </Box>
     );
