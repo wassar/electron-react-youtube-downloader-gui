@@ -3,7 +3,7 @@ import { FileResult } from "tmp";
 import { IncomingMessage } from "http";
 
 declare global {
-    interface downloadError {
+    export interface downloadError {
         error: string;
     }
 
@@ -19,6 +19,7 @@ declare global {
     }
 
     export interface appSettings {
+        id?: number;
         ui_mode: "system" | "dark" | "light";
         downloads_path: string;
     }

@@ -2,6 +2,15 @@ import store from "./store";
 
 declare global {
     type RootState = ReturnType<typeof store.getState>;
+    export interface Api {
+        getAppSettings: () => appSettings;
+        getDownloadHistory: () => downloadHistory[];
+        updateSettings: (s: appSettings) => appSettings;
+    }
+
+    interface Window {
+        api: Api;
+    }
 }
 
 declare module "react-redux" {

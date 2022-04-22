@@ -2,14 +2,14 @@
     "name": "tdd",
     "private": true,
     "version": "0.0.0",
-    "main": "build/index.js",
+    "main": "build/main.js",
     "scripts": {
         "test": "jest",
         "dev": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview",
         "electron:build": "rm -rf build && tsc --project tsconfig.electron.json",
-        "start": "npm run electron:build && electron-forge start",
+        "start": "rm -rf build && tsc --project tsconfig.electron.json && electron-forge start",
         "package": "electron-forge package",
         "make": "electron-forge make"
     },

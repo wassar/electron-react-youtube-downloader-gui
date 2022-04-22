@@ -1,20 +1,14 @@
 import isDev from "electron-is-dev";
 import path from "path";
 import { app, BrowserWindow, ipcMain, IpcMainEvent } from "electron";
-/*
-import {
-    handleNewDownload,
-    handleStartDownload,
-    handleSettingsUpdate,
-    handleDownloadsPathUpdate,
-} from "./core";
-*/
+import { Store } from "./lib";
 
 require("dotenv").config();
 
 let mainWindow: BrowserWindow;
+let database = new Store();
 
-const createWindow = () => {
+const createWindow = async () => {
     const { APP_WINDOW_WIDTH, APP_WINDOW_HEIGHT } = process.env;
 
     mainWindow = new BrowserWindow({
@@ -23,7 +17,7 @@ const createWindow = () => {
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
-            preload: path.join(__dirname, "preload.js"),
+            preload: path.join(__dirname, "./preload.js"),
         },
     });
 
@@ -46,6 +40,7 @@ app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
         app.quit();
     }
+    database.close();
 });
 
 app.on("activate", () => {
@@ -57,3 +52,19 @@ app.on("activate", () => {
 });
 
 app.whenReady().then(createWindow);
+
+//
+
+ipcMain.on("history:get", async (e) => {
+    e.returnValue = await database.getHistory();
+});
+
+ipcMain.on("settings:get", async (e) => {
+    e.returnValue = await database.getSettings();
+});
+
+ipcMain.on("settings:update", async (e, settings: appSettings) => {
+    await database.updateSettings(settings);
+});
+
+//export { database };

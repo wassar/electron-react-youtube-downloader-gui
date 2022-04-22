@@ -5,16 +5,14 @@ import {
     UPDATE_DOWNLOAD_HISTORY,
 } from "../actions/types";
 
-import dummyHistory from "../../download-history.dummy.json";
-
-const initialState: downloadHistory[] = dummyHistory as downloadHistory[];
-
 interface action {
     type: string;
     newDownload?: downloadHistory;
     newHistory?: downloadHistory[];
     id?: number;
 }
+
+const initialState = window.api.getDownloadHistory();
 
 export const downloadHistory = (state = initialState, action: action) => {
     switch (action.type) {
