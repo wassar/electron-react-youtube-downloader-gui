@@ -71,7 +71,6 @@ const Settings: React.FC<SettingsProps> = () => {
                 </FormLabel>
                 <OutlinedInput
                     value={downloads_path}
-                    //id="downloads-dir-input"
                     disabled
                     endAdornment={
                         <InputAdornment position="end">
