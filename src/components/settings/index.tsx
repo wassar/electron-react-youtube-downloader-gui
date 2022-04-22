@@ -32,7 +32,8 @@ const Settings: React.FC<SettingsProps> = () => {
     };
 
     const handleDonwloadsPath = () => {
-        console.log("DOWNLOADS PATH CHANGE");
+        const downloads_path = window.api.updateDownloadsPath();
+        downloads_path && dispatch(updateSettings({ downloads_path }));
     };
     return (
         <Box
@@ -65,17 +66,20 @@ const Settings: React.FC<SettingsProps> = () => {
                 </ButtonGroup>
             </FormControl>
             <FormControl fullWidth sx={{ mt: 4 }}>
-                <FormLabel>
+                <FormLabel htmlFor="downloads-folder-select">
                     <Typography variant="caption">Downloads Folder</Typography>
                 </FormLabel>
                 <OutlinedInput
                     value={downloads_path}
-                    onChange={handleDonwloadsPath}
-                    id="downloads-dir-input"
+                    //id="downloads-dir-input"
                     disabled
                     endAdornment={
                         <InputAdornment position="end">
-                            <IconButton onClick={handleDonwloadsPath}>
+                            <IconButton
+                                id="downloads-folder-select"
+                                color="primary"
+                                onClick={handleDonwloadsPath}
+                            >
                                 <FolderIcon />
                             </IconButton>
                         </InputAdornment>

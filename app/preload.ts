@@ -12,4 +12,7 @@ contextBridge.exposeInMainWorld("api", {
         ipcRenderer.send("settings:update", settings);
         return settings;
     },
+    updateDownloadsPath() {
+        return ipcRenderer.sendSync("settings:select-download-path");
+    },
 });

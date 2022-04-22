@@ -6,6 +6,7 @@ declare global {
         getAppSettings: () => appSettings;
         getDownloadHistory: () => downloadHistory[];
         updateSettings: (s: appSettings) => appSettings;
+        updateDownloadsPath: () => null | string;
     }
 
     interface Window {
