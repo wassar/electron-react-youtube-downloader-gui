@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { Dialog, Box } from "@mui/material";
+
 import Appbar from "./_appbar";
 import NewDownloadHeader from "./_header";
 
@@ -13,28 +13,32 @@ const NewDownloadDialog: React.FC<NewDownloadDialogProps> = ({
     open,
     close,
 }) => {
-    const { downloadHistory } = useSelector((store: RootState) => store);
-    const [thumbnail, setThumbnail] = useState(
-        JSON.parse(downloadHistory[0].thumbnails)
-    );
-    const { title, lengthSeconds, viewCount, author } = downloadHistory[0];
+    const [vidInfo, setVidInfo] = useState<downloadInfoResponse>();
+    const [error, setError] = useState("");
 
-    console.log({ title, thumbnail, lengthSeconds });
+    useEffect(() => {
+        if (!open) return setVidInfo(undefined);
 
-    //const use
+        window.api.getNewDownloadInfo();
+    }, [open]);
+
+    window.api.onNewDownloadInfo((e, response) => {
+        if (!open) return;
+
+        if (response.error) {
+            setError(response.error);
+        } else setVidInfo(response);
+    });
+
+    console.log({ vidInfo });
 
     return (
         <Dialog fullScreen open={open} onClose={close}>
             <Appbar close={close} />
             <Box p={0.5} mt={0.0}>
-                <NewDownloadHeader
-                    title={title}
-                    thumbnail={thumbnail[4].url}
-                    length={lengthSeconds}
-                    views={viewCount}
-                    author={JSON.parse(author)}
-                    //postedAt={""}
-                />
+                {vidInfo && <NewDownloadHeader vidInfo={vidInfo} />}
+
+                {!vidInfo && <h1> LOADINGG</h1>}
             </Box>
         </Dialog>
     );

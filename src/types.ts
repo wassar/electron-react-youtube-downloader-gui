@@ -1,3 +1,4 @@
+import { IpcRendererEvent } from "electron";
 import store from "./store";
 
 declare global {
@@ -7,6 +8,12 @@ declare global {
         getDownloadHistory: () => downloadHistory[];
         updateSettings: (s: appSettings) => appSettings;
         updateDownloadsPath: () => null | string;
+
+        //
+        getNewDownloadInfo: () => void;
+        onNewDownloadInfo: (
+            callback: (e: IpcRendererEvent, r: downloadInfoResponse) => void
+        ) => void;
     }
 
     interface Window {

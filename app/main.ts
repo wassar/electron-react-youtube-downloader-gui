@@ -2,6 +2,7 @@ import isDev from "electron-is-dev";
 import path from "path";
 import { app, BrowserWindow, ipcMain } from "electron";
 import { Store, pathSelect } from "./lib";
+import { handleNewDownloadInfo } from "./core";
 
 require("dotenv").config();
 
@@ -70,3 +71,5 @@ ipcMain.on("settings:update", async (e, settings: appSettings) => {
 ipcMain.on("settings:select-download-path", async (e) => {
     e.returnValue = await pathSelect(mainWindow);
 });
+
+ipcMain.on("download:info", handleNewDownloadInfo);

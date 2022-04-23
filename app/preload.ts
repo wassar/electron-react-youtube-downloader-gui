@@ -15,4 +15,13 @@ contextBridge.exposeInMainWorld("api", {
     updateDownloadsPath() {
         return ipcRenderer.sendSync("settings:select-download-path");
     },
+
+    //
+    getNewDownloadInfo() {
+        ipcRenderer.send("download:info");
+    },
+
+    onNewDownloadInfo(callback) {
+        ipcRenderer.on("download:info-ready", callback);
+    },
 });
