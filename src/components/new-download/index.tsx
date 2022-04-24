@@ -3,6 +3,7 @@ import { AppBar, Toolbar, IconButton, Dialog, Box } from "@mui/material";
 import { KeyboardBackspace as CloseIcon } from "@mui/icons-material";
 
 import VideoInfo from "./video-info";
+import Loader from "./_loader";
 
 interface NewDownloadDialogProps {
     open: boolean;
@@ -41,7 +42,7 @@ const NewDownloadDialog: React.FC<NewDownloadDialogProps> = ({
                 </Toolbar>
             </AppBar>
             <Box p={0.5} mt={0.0}>
-                {vidInfo ? <VideoInfo vidInfo={vidInfo} /> : <h1>LOADING</h1>}
+                {vidInfo ? <VideoInfo vidInfo={vidInfo} /> : <Loader />}
             </Box>
         </Dialog>
     );

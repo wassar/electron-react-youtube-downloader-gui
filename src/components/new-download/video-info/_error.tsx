@@ -10,18 +10,15 @@ const DownloadError: React.FC<DownloadErrorProps> = ({ error }) => (
         sx={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-            //height: "100%",
             flexWrap: "wrap",
             p: 2,
             mt: 4,
         }}
     >
-        <Box>
-            <ErrorIcon sx={{ fontSize: "4rem" }} color="error" />
-        </Box>
-        <Typography align="center">{error}</Typography>
+        <ErrorIcon sx={{ fontSize: "4rem", mb: 1 }} color="error" />
+        <Typography width="100%" align="center">
+            {error}
+        </Typography>
     </Box>
 );
 
