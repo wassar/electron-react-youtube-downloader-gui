@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Dialog, Box } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Dialog, Box } from "@mui/material";
+import { KeyboardBackspace as CloseIcon } from "@mui/icons-material";
 
-import Appbar from "./_appbar";
-import NewDownloadHeader from "./_header";
+import VideoInfo from "./video-info";
 
 interface NewDownloadDialogProps {
     open: boolean;
@@ -14,7 +14,6 @@ const NewDownloadDialog: React.FC<NewDownloadDialogProps> = ({
     close,
 }) => {
     const [vidInfo, setVidInfo] = useState<downloadInfoResponse>();
-    const [error, setError] = useState("");
 
     useEffect(() => {
         if (!open) return setVidInfo(undefined);
@@ -24,21 +23,25 @@ const NewDownloadDialog: React.FC<NewDownloadDialogProps> = ({
 
     window.api.onNewDownloadInfo((e, response) => {
         if (!open) return;
-
-        if (response.error) {
-            setError(response.error);
-        } else setVidInfo(response);
+        setVidInfo(response);
     });
-
-    console.log({ vidInfo });
 
     return (
         <Dialog fullScreen open={open} onClose={close}>
-            <Appbar close={close} />
+            <AppBar sx={{ position: "relative" }}>
+                <Toolbar>
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        onClick={close}
+                        aria-label="close"
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
             <Box p={0.5} mt={0.0}>
-                {vidInfo && <NewDownloadHeader vidInfo={vidInfo} />}
-
-                {!vidInfo && <h1> LOADINGG</h1>}
+                {vidInfo ? <VideoInfo vidInfo={vidInfo} /> : <h1>LOADING</h1>}
             </Box>
         </Dialog>
     );

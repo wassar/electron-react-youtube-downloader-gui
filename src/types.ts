@@ -19,6 +19,9 @@ declare global {
     interface Window {
         api: Api;
     }
+
+    export type mediaType = "audio" | "video";
+    export type mediaFormat = "mp4" | "mp3" | "webm";
 }
 
 declare module "react-redux" {

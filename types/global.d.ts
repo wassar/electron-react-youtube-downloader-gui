@@ -1,4 +1,4 @@
-import { MoreVideoDetails, videoInfo, Author } from "ytdl-core";
+import { MoreVideoDetails, videoInfo, Author, videoFormat } from "ytdl-core";
 import { FileResult } from "tmp";
 import { IncomingMessage } from "http";
 
@@ -43,6 +43,7 @@ declare global {
     export interface vidDetails extends MoreVideoDetails {}
     export interface vidInfo extends videoInfo {}
     export interface vidAuthor extends Author {}
+    export interface vidFormat extends videoFormat {}
 
     export interface downloadInfoResponse extends Partial<videoInfo> {
         error?: string;

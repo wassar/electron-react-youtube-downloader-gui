@@ -2,8 +2,8 @@ import millify from "millify";
 import { useMemo } from "react";
 import { Box, Avatar, Typography, Link } from "@mui/material";
 
-import { VideoThumbnail } from "..";
-import { timeAgo } from "../../utils";
+import { VideoThumbnail } from "../..";
+import { timeAgo } from "../../../utils";
 
 interface NewDownloadHeaderProps {
     vidInfo: downloadInfoResponse;
