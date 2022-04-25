@@ -26,9 +26,7 @@ const NewDownloadDialog: React.FC<NewDownloadDialogProps> = ({
 
     useEffect(() => {
         if (!open) return setVidInfo(undefined);
-
         window.api.getNewDownloadInfo();
-
         window.api.onNewDownloadInfo((e, response) => {
             if (!open) return;
             setVidInfo(response);

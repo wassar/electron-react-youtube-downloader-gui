@@ -11,6 +11,7 @@ declare global {
 
         //
         getNewDownloadInfo: () => void;
+
         onNewDownloadInfo: (
             callback: (e: IpcRendererEvent, r: downloadInfoResponse) => void
         ) => void;
@@ -18,8 +19,21 @@ declare global {
         startNewDownload: (
             i: vidFormat,
             d: downloadHistory,
-            o: string
+            o: string,
+            s?: downloadSync
         ) => downloadHistory;
+        //
+        onDownloadSync: (
+            cb: (
+                e: IpcRendererEvent,
+                id: number,
+                data: downloadSyncProps
+            ) => void
+        ) => void;
+
+        onHistoryUpdate: (
+            cb: (e: IpcRendererEvent, history: downloadHistory[]) => void
+        ) => void;
     }
 
     interface Window {

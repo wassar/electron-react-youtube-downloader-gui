@@ -38,12 +38,19 @@ declare global {
         format: string;
         type: string;
         download_path?: string;
+        download_progress?: number;
         status?:
             | "pending"
             | "downloading"
             | "processing"
             | "downloaded"
             | "errored";
+    }
+
+    export interface downloadSyncProps {
+        totalFileSize: number;
+        downloadedSize: number;
+        percentage: number;
     }
 
     export interface vidDetails extends MoreVideoDetails {}
@@ -60,5 +67,6 @@ declare global {
 
     export type mediaType = "audio" | "video";
     export type mediaFormat = "mp4" | "mp3" | "webm";
+    export type downloadSync = (p: downloadSyncProps) => any;
 }
 export {};

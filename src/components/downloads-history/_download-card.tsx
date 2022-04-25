@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Box, Card } from "@mui/material";
 import { VideoThumbnail as CardThumbnail } from "..";
+
 import CardActions from "./_card-actions";
 import CardBody from "./_card-body";
+
+import { ProgressBar } from "./_progress-bar";
 
 interface DownloadCardProps {
     download: downloadHistory;
@@ -61,6 +64,9 @@ const DownloadCard: React.FC<DownloadCardProps> = ({ download }) => {
                 </Box>
                 <CardActions />
             </Box>
+            {download.download_progress && (
+                <ProgressBar value={download.download_progress} />
+            )}
         </Card>
     );
 };

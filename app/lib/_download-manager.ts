@@ -19,10 +19,13 @@ export class DownloadManager {
 
     async downloadVideo(
         url: string,
-        downloadProgressSync?: (p: number) => any
+        downloadProgressSync?: downloadSync
     ): Promise<downloadResponse> {
         return new Promise((resolve) => {
             let totalFileSize: number;
+            let downloadedSize = 0;
+            let percentage = 0;
+
             const tmpFile = tmp.fileSync();
             const file = fs.createWriteStream(tmpFile.name);
 
@@ -36,20 +39,35 @@ export class DownloadManager {
             };
 
             http.get(url, (res: ResponseIncomingMessage) => {
-                res.pipe(file);
                 totalFileSize = parseInt(String(res.headers["content-length"]));
-                res.on("error", (e) => response("DOWNLOAD_ERROR"));
+                res.pipe(file);
+                res.on("error", (e) => {
+                    console.log("Download error", e);
+                    response("DOWNLOAD_ERROR");
+                });
                 res.on("end", () => response());
-                if (typeof downloadProgressSync === "function")
-                    res.on("data", downloadProgressSync);
+                res.on("data", (data) => {
+                    downloadedSize += data.length;
+                    percentage = ~~((100.0 * downloadedSize) / totalFileSize);
+                    if (typeof downloadProgressSync === "function")
+                        downloadProgressSync({
+                            totalFileSize,
+                            downloadedSize,
+                            percentage,
+                        });
+                });
                 //
-            }).on("error", () => {
+            }).on("error", (e) => {
+                console.log("Error HTTP", e);
                 response("HTTP_Error");
             });
         });
     }
 
     async convert(file: tmpFile, output: string): Promise<convertResponse> {
+        console.log("FNAME", file.name);
+        console.log("OUTPUT", output);
+
         return new Promise((resolve) => {
             if (!fs.existsSync(file.name)) {
                 resolve({
@@ -60,7 +78,6 @@ export class DownloadManager {
                 .input(file.name)
                 .save(output)
                 .on("end", () => {
-                    console.log("Convert Completed.");
                     file.removeCallback();
                     resolve({
                         file: output,

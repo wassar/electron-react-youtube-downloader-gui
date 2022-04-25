@@ -1,5 +1,7 @@
 import { IpcMainEvent, clipboard, DownloadItem } from "electron";
 import path from "path";
+import fs from "fs";
+
 import { DownloadManager, Store } from "./lib";
 
 const manager = new DownloadManager();
@@ -20,19 +22,28 @@ export const handleDownloadStart = async (
     downloads_path: string
 ) => {
     //
-    const download = await manager.downloadVideo(item.url);
+    if (!fs.existsSync(downloads_path)) fs.mkdirSync(downloads_path);
+
+    const download = await manager.downloadVideo(item.url, (data) => {
+        e.reply("download:sync", historyItem.id, data);
+    });
 
     if (download.error) {
         console.log("Downoad Error", download.error);
+        return;
     }
 
     const response = await manager.convert(
         download.tmpFile,
-        path.resolve(
-            downloads_path,
-            `${historyItem.title}.${historyItem.format}`
-        )
+        path.join(downloads_path, `${historyItem.title}.${historyItem.format}`)
     );
 
     if (response.error) console.log("convert errored", response.error);
+
+    delete historyItem.id;
+    historyItem.status = "downloaded";
+    historyItem.download_path = response.file;
+
+    await database.setHistoryItem(historyItem);
+    e.reply("history:update", await database.getHistory());
 };

@@ -3,6 +3,7 @@ import {
     DELETE_DOWNLOAD_HISTORY,
     UPDATE_DOWNLOAD_HISTORY,
     CLEAR_DOWNLOAD_HISTORY,
+    SET_DOWNLOAD_HISTORY,
 } from "./types";
 
 export const appendNewDownload = (newDownload: downloadHistory) => ({
@@ -15,11 +16,20 @@ export const deleteDownload = (id: number) => ({
     id,
 });
 
-export const updateDownloadHistory = (newHistory: downloadHistory[]) => ({
+export const updateDownloadHistory = (
+    id: number,
+    historyUpdate: Partial<downloadHistory>
+) => ({
     type: UPDATE_DOWNLOAD_HISTORY,
-    newHistory,
+    id,
+    historyUpdate,
 });
 
 export const clearDownloadHistory = () => ({
     type: CLEAR_DOWNLOAD_HISTORY,
+});
+
+export const setDownloadHistory = (newHistory: downloadHistory[]) => ({
+    type: SET_DOWNLOAD_HISTORY,
+    newHistory,
 });

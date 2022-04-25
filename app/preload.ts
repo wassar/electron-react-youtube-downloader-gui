@@ -36,4 +36,11 @@ contextBridge.exposeInMainWorld("api", {
             output
         );
     },
+    onDownloadSync(callback: (id: number, data: downloadSyncProps) => void) {
+        ipcRenderer.on("download:sync", callback);
+    },
+    //
+    onHistoryUpdate(callback) {
+        ipcRenderer.on("history:update", callback);
+    },
 });
