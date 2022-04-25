@@ -14,14 +14,17 @@ declare global {
         onNewDownloadInfo: (
             callback: (e: IpcRendererEvent, r: downloadInfoResponse) => void
         ) => void;
+        //
+        startNewDownload: (
+            i: vidFormat,
+            d: downloadHistory,
+            o: string
+        ) => downloadHistory;
     }
 
     interface Window {
         api: Api;
     }
-
-    export type mediaType = "audio" | "video";
-    export type mediaFormat = "mp4" | "mp3" | "webm";
 }
 
 declare module "react-redux" {

@@ -1,8 +1,9 @@
 import isDev from "electron-is-dev";
 import path from "path";
 import { app, BrowserWindow, ipcMain } from "electron";
-import { Store, pathSelect } from "./lib";
-import { handleNewDownloadInfo } from "./core";
+import { Store } from "./lib";
+import { pathSelect } from "./utils";
+import { handleNewDownloadInfo, handleDownloadStart } from "./core";
 
 require("dotenv").config();
 
@@ -10,6 +11,8 @@ let mainWindow: BrowserWindow;
 let database = new Store();
 
 const createWindow = async () => {
+    await database.init();
+
     const { APP_WINDOW_WIDTH, APP_WINDOW_HEIGHT } = process.env;
 
     mainWindow = new BrowserWindow({
@@ -73,3 +76,5 @@ ipcMain.on("settings:select-download-path", async (e) => {
 });
 
 ipcMain.on("download:info", handleNewDownloadInfo);
+
+ipcMain.on("download:start", handleDownloadStart);

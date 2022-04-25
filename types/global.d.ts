@@ -38,6 +38,12 @@ declare global {
         format: string;
         type: string;
         download_path?: string;
+        status?:
+            | "pending"
+            | "downloading"
+            | "processing"
+            | "downloaded"
+            | "errored";
     }
 
     export interface vidDetails extends MoreVideoDetails {}
@@ -51,5 +57,8 @@ declare global {
 
     export type ResponseIncomingMessage = IncomingMessage;
     export type tmpFile = FileResult;
+
+    export type mediaType = "audio" | "video";
+    export type mediaFormat = "mp4" | "mp3" | "webm";
 }
 export {};

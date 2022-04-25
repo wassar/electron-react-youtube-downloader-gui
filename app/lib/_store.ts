@@ -31,6 +31,7 @@ export class Store {
                 table.string("type");
                 table.timestamp("downloaded_at");
                 table.string("download_path");
+                table.string("status");
             });
         }
 
@@ -60,8 +61,8 @@ export class Store {
         return await this.db("history").select("*").orderBy("id", "desc");
     }
 
-    async setHistoryItem(download: downloadHistory): Promise<void> {
-        await this.db("history").insert(download);
+    async setHistoryItem(download: downloadHistory): Promise<number> {
+        return (await this.db("history").insert(download).returning("id"))[0];
     }
 
     async deleteHistoryItem(id: number): Promise<void> {

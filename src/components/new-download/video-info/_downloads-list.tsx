@@ -7,16 +7,16 @@ import Filter from "./_filter";
 
 interface DownloadsListProps {
     formats: vidFormat[];
+    handleNewDownload: (i: vidFormat, f: mediaFormat, t: mediaType) => void;
 }
 
-const DownloadsList: React.FC<DownloadsListProps> = ({ formats }) => {
+const DownloadsList: React.FC<DownloadsListProps> = ({
+    formats,
+    handleNewDownload,
+}) => {
     const [items, setItems] = useState([] as vidFormat[]);
     const [mediaType, setMediaType] = useState<mediaType>("video");
     const [mediaFormat, setMediaFormat] = useState<mediaFormat>("mp4");
-
-    const handleNewDownload = (item: vidFormat) => {
-        console.log("NEW DOWNLOAD:", item);
-    };
 
     const downloadSize = (size: string): string => {
         return millify(parseInt(size), {
@@ -77,7 +77,13 @@ const DownloadsList: React.FC<DownloadsListProps> = ({ formats }) => {
                             </TableCell>
                             <TableCell align="right">
                                 <Button
-                                    onClick={() => handleNewDownload(item)}
+                                    onClick={() =>
+                                        handleNewDownload(
+                                            item,
+                                            mediaFormat,
+                                            mediaType
+                                        )
+                                    }
                                     color="primary"
                                 >
                                     <DownloadIcon />

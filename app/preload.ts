@@ -20,8 +20,20 @@ contextBridge.exposeInMainWorld("api", {
     getNewDownloadInfo() {
         ipcRenderer.send("download:info");
     },
-
     onNewDownloadInfo(callback) {
         ipcRenderer.on("download:info-ready", callback);
+    },
+    //
+    startNewDownload(
+        item: vidFormat,
+        downloadHistoryItem: downloadHistory,
+        output: downloadOutput
+    ): downloadHistory {
+        return ipcRenderer.send(
+            "download:start",
+            item,
+            downloadHistoryItem,
+            output
+        );
     },
 });
