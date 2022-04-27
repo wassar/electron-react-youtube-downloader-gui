@@ -30,6 +30,9 @@ declare global {
                 data: downloadSyncProps
             ) => void
         ) => void;
+        onDownloadError: (
+            cb: (e: IpcRendererEvent, id: number, error: string) => void
+        ) => void;
 
         onHistoryUpdate: (
             cb: (e: IpcRendererEvent, history: downloadHistory[]) => void

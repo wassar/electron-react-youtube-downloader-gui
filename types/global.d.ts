@@ -43,8 +43,9 @@ declare global {
             | "pending"
             | "downloading"
             | "processing"
-            | "downloaded"
-            | "errored";
+            | "complete"
+            | "error";
+        error?: string;
     }
 
     export interface downloadSyncProps {

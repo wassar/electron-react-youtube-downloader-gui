@@ -17,6 +17,11 @@ const DownloadHistory: React.FC = () => {
         window.api.onHistoryUpdate((e, history) => {
             dispatch(setDownloadHistory(history));
         });
+
+        window.api.onDownloadError((e, id, error) => {
+            console.log(`Error @: ${id}`, error);
+            dispatch(updateDownloadHistory(id, { status: "error", error }));
+        });
     }, []);
 
     return (

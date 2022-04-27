@@ -6,9 +6,11 @@ import CardActions from "./_card-actions";
 import CardBody from "./_card-body";
 
 import { ProgressBar } from "./_progress-bar";
+import ErrorOverlay from "./_error-overlay";
 
 interface DownloadCardProps {
     download: downloadHistory;
+    error?: string;
 }
 
 const DownloadCard: React.FC<DownloadCardProps> = ({ download }) => {
@@ -25,6 +27,7 @@ const DownloadCard: React.FC<DownloadCardProps> = ({ download }) => {
                 m: -1,
                 p: 0.5,
                 mb: 1.5,
+                position: "relative",
             }}
         >
             <Box
@@ -66,6 +69,10 @@ const DownloadCard: React.FC<DownloadCardProps> = ({ download }) => {
             </Box>
             {download.download_progress && (
                 <ProgressBar value={download.download_progress} />
+            )}
+
+            {download.status === "error" && (
+                <ErrorOverlay error={download.error!} />
             )}
         </Card>
     );

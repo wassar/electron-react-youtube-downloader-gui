@@ -1,4 +1,4 @@
-import { IpcMainEvent, clipboard, DownloadItem } from "electron";
+import { IpcMainEvent, clipboard } from "electron";
 import path from "path";
 import fs from "fs";
 
@@ -20,8 +20,9 @@ export const handleDownloadStart = async (
     item: vidFormat,
     historyItem: downloadHistory,
     downloads_path: string
-) => {
+): Promise<void> => {
     //
+
     if (!fs.existsSync(downloads_path)) fs.mkdirSync(downloads_path);
 
     const download = await manager.downloadVideo(item.url, (data) => {
@@ -30,6 +31,7 @@ export const handleDownloadStart = async (
 
     if (download.error) {
         console.log("Downoad Error", download.error);
+        e.reply("download:error", download.error);
         return;
     }
 
@@ -38,10 +40,14 @@ export const handleDownloadStart = async (
         path.join(downloads_path, `${historyItem.title}.${historyItem.format}`)
     );
 
-    if (response.error) console.log("convert errored", response.error);
+    if (response.error) {
+        console.log("convert errored", response.error);
+        e.reply("download:error", download.error);
+        return;
+    }
 
     delete historyItem.id;
-    historyItem.status = "downloaded";
+    historyItem.status = "complete";
     historyItem.download_path = response.file;
 
     await database.setHistoryItem(historyItem);

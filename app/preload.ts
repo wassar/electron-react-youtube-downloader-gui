@@ -8,7 +8,7 @@ contextBridge.exposeInMainWorld("api", {
     getDownloadHistory() {
         return ipcRenderer.sendSync("history:get");
     },
-    updateSettings(settings: appSettings) {
+    updateSettings(settings) {
         ipcRenderer.send("settings:update", settings);
         return settings;
     },
@@ -36,8 +36,11 @@ contextBridge.exposeInMainWorld("api", {
             output
         );
     },
-    onDownloadSync(callback: (id: number, data: downloadSyncProps) => void) {
+    onDownloadSync(callback) {
         ipcRenderer.on("download:sync", callback);
+    },
+    onDownloadError(callback) {
+        ipcRenderer.on("download:error", callback);
     },
     //
     onHistoryUpdate(callback) {
