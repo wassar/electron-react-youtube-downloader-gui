@@ -1,27 +1,18 @@
 import isDev from "electron-is-dev";
 import path from "path";
 import { app, BrowserWindow, ipcMain, shell, Event } from "electron";
-import { Store } from "./lib";
 import { pathSelect } from "./utils";
-import {
-    handleNewDownloadInfo,
-    handleDownloadStart,
-    handleDownloadActions,
-} from "./core";
+import * as handle from "./core";
 
 require("dotenv").config();
 
 if (require("electron-squirrel-startup")) {
-    // eslint-disable-line global-require
     app.quit();
 }
 
 let mainWindow: BrowserWindow;
-let database = new Store();
 
 const createWindow = async () => {
-    await database.init();
-
     const { APP_WINDOW_WIDTH, APP_WINDOW_HEIGHT } = process.env;
 
     mainWindow = new BrowserWindow({
@@ -45,6 +36,7 @@ const createWindow = async () => {
         mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
     }
 
+    //opening links in new window
     mainWindow.webContents.on("will-navigate", handleRedirect);
     mainWindow.webContents.on("new-window", handleRedirect);
 };
@@ -56,7 +48,7 @@ app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
         app.quit();
     }
-    database.close();
+    //handle.closeConnection();
 });
 
 app.on("activate", () => {
@@ -69,33 +61,19 @@ app.on("activate", () => {
 
 app.whenReady().then(createWindow);
 
-//
-
 const handleRedirect = (e: Event, url: string) => {
     e.preventDefault();
-    //if (url != mainWindow.webContents.getURL()) {
-    shell.openExternal(url);
-    //}
+    if (url != mainWindow.webContents.getURL()) shell.openExternal(url);
 };
-
-ipcMain.on("history:get", async (e) => {
-    e.returnValue = await database.getHistory();
-});
-
-ipcMain.on("settings:get", async (e) => {
-    e.returnValue = await database.getSettings();
-});
-
-ipcMain.on("settings:update", async (e, settings: appSettings) => {
-    await database.updateSettings(settings);
-});
 
 ipcMain.on("settings:select-download-path", async (e) => {
     e.returnValue = await pathSelect(mainWindow);
 });
 
-ipcMain.on("download:info", handleNewDownloadInfo);
+ipcMain.on("history:get", handle.getHistory);
+ipcMain.on("settings:get", handle.getSettings);
+ipcMain.on("settings:update", handle.getHistory);
 
-ipcMain.on("download:start", handleDownloadStart);
-
-ipcMain.on("download:open-folder", handleDownloadActions);
+ipcMain.on("download:info", handle.newDownloadInfo);
+ipcMain.on("download:start", handle.downloadStart);
+ipcMain.on("download:history-action", handle.downloadActions);

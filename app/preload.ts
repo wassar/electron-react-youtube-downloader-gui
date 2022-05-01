@@ -24,13 +24,8 @@ contextBridge.exposeInMainWorld("api", {
         ipcRenderer.on("download:info-ready", callback);
     },
     //
-    startNewDownload(item, downloadHistoryItem, output) {
-        return ipcRenderer.send(
-            "download:start",
-            item,
-            downloadHistoryItem,
-            output
-        );
+    startNewDownload(item, downloadHistoryItem) {
+        return ipcRenderer.send("download:start", item, downloadHistoryItem);
     },
     onDownloadSync(callback) {
         ipcRenderer.on("download:sync", callback);
@@ -44,6 +39,6 @@ contextBridge.exposeInMainWorld("api", {
     },
     //
     handleDownloadAction(action, item) {
-        ipcRenderer.send("download:open-folder", action, item);
+        ipcRenderer.send("download:history-action", action, item);
     },
 });

@@ -48,7 +48,10 @@ export class DownloadManager {
                 res.on("end", () => response());
                 res.on("data", (data) => {
                     downloadedSize += data.length;
-                    percentage = ~~((100.0 * downloadedSize) / totalFileSize);
+                    percentage = Math.floor(
+                        (100.0 * downloadedSize) / totalFileSize
+                    );
+
                     if (typeof downloadProgressSync === "function")
                         downloadProgressSync({
                             totalFileSize,
@@ -65,9 +68,6 @@ export class DownloadManager {
     }
 
     async convert(file: tmpFile, output: string): Promise<convertResponse> {
-        console.log("FNAME", file.name);
-        console.log("OUTPUT", output);
-
         return new Promise((resolve) => {
             if (!fs.existsSync(file.name)) {
                 resolve({

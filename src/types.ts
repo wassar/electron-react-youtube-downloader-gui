@@ -16,12 +16,7 @@ declare global {
             callback: (e: IpcRendererEvent, r: downloadInfoResponse) => void
         ) => void;
         //
-        startNewDownload: (
-            i: vidFormat,
-            d: downloadHistory,
-            o: string,
-            s?: downloadSync
-        ) => downloadHistory;
+        startNewDownload: (i: vidFormat, d: downloadHistory) => downloadHistory;
         //
         onDownloadSync: (
             cb: (

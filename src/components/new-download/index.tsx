@@ -20,9 +20,6 @@ const NewDownloadDialog: React.FC<NewDownloadDialogProps> = ({
 }) => {
     const dispatch = useDispatch();
     const [vidInfo, setVidInfo] = useState<downloadInfoResponse>();
-    const { downloads_path } = useSelector(
-        (store: RootState) => store.appSettings
-    );
 
     useEffect(() => {
         if (!open) return setVidInfo(undefined);
@@ -44,7 +41,7 @@ const NewDownloadDialog: React.FC<NewDownloadDialogProps> = ({
             ...generateHistoryItem(vidInfo?.videoDetails!, format, type),
         };
 
-        window.api.startNewDownload(item, historyItem, downloads_path);
+        window.api.startNewDownload(item, historyItem);
         dispatch(appendNewDownload(historyItem));
         close();
     };

@@ -1,28 +1,38 @@
-import { IpcMainEvent, clipboard, shell } from "electron";
+import { IpcMainEvent, clipboard, shell, ipcMain } from "electron";
 import path from "path";
 import fs from "fs";
 
 import { DownloadManager, Store } from "./lib";
 
 const manager = new DownloadManager();
-const database = new Store();
+const store = new Store();
+store.init().then();
 
-export const handleNewDownloadInfo = async (e: IpcMainEvent) => {
-    //
-    const link = clipboard.readText();
+export async function getSettings(e: IpcMainEvent) {
+    e.returnValue = await store.getSettings();
+}
 
-    const info = await manager.getInfo(link);
+export async function getHistory(e: IpcMainEvent) {
+    e.returnValue = await store.getHistory();
+}
 
-    e.reply("download:info-ready", info);
-};
+export async function updateSettings(e: IpcMainEvent, settings: appSettings) {
+    await store.updateSettings(settings);
+}
 
-export const handleDownloadStart = async (
+export async function newDownloadInfo(
+    e: IpcMainEvent,
+    url = clipboard.readText()
+): Promise<void> {
+    e.reply("download:info-ready", await manager.getInfo(url));
+}
+
+export async function downloadStart(
     e: IpcMainEvent,
     item: vidFormat,
-    historyItem: downloadHistory,
-    downloads_path: string
-): Promise<void> => {
-    //
+    historyItem: downloadHistory
+): Promise<void> {
+    const { downloads_path } = await store.getSettings();
 
     if (!fs.existsSync(downloads_path)) fs.mkdirSync(downloads_path);
 
@@ -49,14 +59,15 @@ export const handleDownloadStart = async (
     historyItem.status = "complete";
     historyItem.download_path = response.file;
 
-    await database.setHistoryItem(historyItem);
-    e.reply("history:update", await database.getHistory());
-};
-export const handleDownloadActions = (
+    await store.setHistoryItem(historyItem);
+    e.reply("history:update", await store.getHistory());
+}
+
+export function downloadActions(
     e: IpcMainEvent,
     action: string,
     item: downloadHistory
-) => {
+): void {
     switch (action) {
         case "PLAY_DOWNLOAD":
             shell.openPath(item.download_path!);
@@ -68,7 +79,11 @@ export const handleDownloadActions = (
             shell.openExternal(item.video_url);
             break;
         case "DELETE_DOWNLOAD":
-            database.deleteHistoryItem(item.id);
+            this.store.deleteHistoryItem(item.id);
             break;
     }
-};
+}
+
+export function closeConnection() {
+    store.close();
+}
