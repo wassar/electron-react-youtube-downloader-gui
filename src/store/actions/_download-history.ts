@@ -11,7 +11,7 @@ export const appendNewDownload = (newDownload: downloadHistory) => ({
     newDownload,
 });
 
-export const deleteDownload = (id: number) => ({
+export const deleteDownloadHistoryItem = (id: number) => ({
     type: DELETE_DOWNLOAD_HISTORY,
     id,
 });

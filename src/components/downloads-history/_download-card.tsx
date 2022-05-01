@@ -10,10 +10,14 @@ import ErrorOverlay from "./_error-overlay";
 
 interface DownloadCardProps {
     download: downloadHistory;
+    handleActionClick: (item: downloadHistory, action: string) => void;
     error?: string;
 }
 
-const DownloadCard: React.FC<DownloadCardProps> = ({ download }) => {
+const DownloadCard: React.FC<DownloadCardProps> = ({
+    download,
+    handleActionClick,
+}) => {
     const [thumbnails, setThumbnails] = useState(
         JSON.parse(download.thumbnails)
     );
@@ -65,7 +69,10 @@ const DownloadCard: React.FC<DownloadCardProps> = ({ download }) => {
                         type={type}
                     />
                 </Box>
-                <CardActions />
+                <CardActions
+                    item={download}
+                    handleActionClick={handleActionClick}
+                />
             </Box>
             {download.download_progress && (
                 <ProgressBar value={download.download_progress} />

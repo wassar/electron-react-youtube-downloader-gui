@@ -1,9 +1,13 @@
 import isDev from "electron-is-dev";
 import path from "path";
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, shell, Event } from "electron";
 import { Store } from "./lib";
 import { pathSelect } from "./utils";
-import { handleNewDownloadInfo, handleDownloadStart } from "./core";
+import {
+    handleNewDownloadInfo,
+    handleDownloadStart,
+    handleDownloadActions,
+} from "./core";
 
 require("dotenv").config();
 
@@ -35,6 +39,9 @@ const createWindow = async () => {
     } else {
         mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
     }
+
+    mainWindow.webContents.on("will-navigate", handleRedirect);
+    mainWindow.webContents.on("new-window", handleRedirect);
 };
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -59,6 +66,13 @@ app.whenReady().then(createWindow);
 
 //
 
+const handleRedirect = (e: Event, url: string) => {
+    e.preventDefault();
+    //if (url != mainWindow.webContents.getURL()) {
+    shell.openExternal(url);
+    //}
+};
+
 ipcMain.on("history:get", async (e) => {
     e.returnValue = await database.getHistory();
 });
@@ -78,3 +92,5 @@ ipcMain.on("settings:select-download-path", async (e) => {
 ipcMain.on("download:info", handleNewDownloadInfo);
 
 ipcMain.on("download:start", handleDownloadStart);
+
+ipcMain.on("download:open-folder", handleDownloadActions);

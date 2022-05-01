@@ -1,4 +1,4 @@
-import { IpcMainEvent, clipboard } from "electron";
+import { IpcMainEvent, clipboard, shell } from "electron";
 import path from "path";
 import fs from "fs";
 
@@ -10,6 +10,7 @@ const database = new Store();
 export const handleNewDownloadInfo = async (e: IpcMainEvent) => {
     //
     const link = clipboard.readText();
+
     const info = await manager.getInfo(link);
 
     e.reply("download:info-ready", info);
@@ -30,7 +31,6 @@ export const handleDownloadStart = async (
     });
 
     if (download.error) {
-        console.log("Downoad Error", download.error);
         e.reply("download:error", download.error);
         return;
     }
@@ -41,7 +41,6 @@ export const handleDownloadStart = async (
     );
 
     if (response.error) {
-        console.log("convert errored", response.error);
         e.reply("download:error", download.error);
         return;
     }
@@ -52,4 +51,24 @@ export const handleDownloadStart = async (
 
     await database.setHistoryItem(historyItem);
     e.reply("history:update", await database.getHistory());
+};
+export const handleDownloadActions = (
+    e: IpcMainEvent,
+    action: string,
+    item: downloadHistory
+) => {
+    switch (action) {
+        case "PLAY_DOWNLOAD":
+            shell.openPath(item.download_path!);
+            break;
+        case "OPEN_FOLDER":
+            shell.showItemInFolder(item.download_path!);
+            break;
+        case "VISIT_VIDEO_PAGE":
+            shell.openExternal(item.video_url);
+            break;
+        case "DELETE_DOWNLOAD":
+            database.deleteHistoryItem(item.id);
+            break;
+    }
 };

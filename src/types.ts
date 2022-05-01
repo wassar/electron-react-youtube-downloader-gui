@@ -37,6 +37,7 @@ declare global {
         onHistoryUpdate: (
             cb: (e: IpcRendererEvent, history: downloadHistory[]) => void
         ) => void;
+        handleDownloadAction: (action: string, item: downloadHistory) => void;
     }
 
     interface Window {

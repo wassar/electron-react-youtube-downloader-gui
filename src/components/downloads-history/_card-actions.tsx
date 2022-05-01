@@ -1,5 +1,5 @@
 import { useState, MouseEvent, FC } from "react";
-import { Box, IconButton, Menu } from "@mui/material";
+import { Box, IconButton, Menu, Link } from "@mui/material";
 import {
     MoreVert as OptionsIcon,
     DeleteOutline as DeleteIcon,
@@ -10,9 +10,12 @@ import {
 
 import { IconMenuItem as ActionMenuItem } from "..";
 
-interface CardActionsProps {}
+interface CardActionsProps {
+    item: downloadHistory;
+    handleActionClick: (item: downloadHistory, action: string) => void;
+}
 
-const CardActions: FC<CardActionsProps> = () => {
+const CardActions: FC<CardActionsProps> = ({ item, handleActionClick }) => {
     const [anchor, setAnchor] = useState<null | HTMLElement>(null);
 
     const handleMenuOpen = (e: MouseEvent<HTMLElement>) => {
@@ -20,10 +23,6 @@ const CardActions: FC<CardActionsProps> = () => {
     };
     const handleMenuClose = () => {
         setAnchor(null);
-    };
-    const handleAction = (action: string) => {
-        console.log("Menu Item Clicked:", action);
-        handleMenuClose();
     };
 
     return (
@@ -38,22 +37,22 @@ const CardActions: FC<CardActionsProps> = () => {
                 sx={{ "& ul": { padding: "0 !important" } }}
             >
                 <ActionMenuItem
-                    onClick={() => handleAction("PLAY_DOWNLOAD")}
+                    onClick={() => handleActionClick(item, "PLAY_DOWNLOAD")}
                     text="Play"
                     Icon={<PlayIcon />}
                 />
                 <ActionMenuItem
-                    onClick={() => handleAction("OPEN_FOLDER")}
+                    onClick={() => handleActionClick(item, "OPEN_FOLDER")}
                     text="Reveal in folder"
                     Icon={<OpenInFolderIcon />}
                 />
                 <ActionMenuItem
-                    onClick={() => handleAction("VISIT_VIDEO_PAGE")}
+                    onClick={() => handleActionClick(item, "VISIT_VIDEO_PAGE")}
                     text="Open in browser"
                     Icon={<VisitVideoIcon />}
                 />
                 <ActionMenuItem
-                    onClick={() => handleAction("DELETE_DOWNLOAD")}
+                    onClick={() => handleActionClick(item, "DELETE_DOWNLOAD")}
                     text="Delete"
                     Icon={<DeleteIcon />}
                 />
