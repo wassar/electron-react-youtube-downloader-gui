@@ -11,6 +11,11 @@ import {
 
 require("dotenv").config();
 
+if (require("electron-squirrel-startup")) {
+    // eslint-disable-line global-require
+    app.quit();
+}
+
 let mainWindow: BrowserWindow;
 let database = new Store();
 
