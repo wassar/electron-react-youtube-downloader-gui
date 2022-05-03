@@ -58,7 +58,6 @@ declare global {
     export interface vidInfo extends videoInfo {}
     export interface vidAuthor extends Author {}
     export interface vidFormat extends videoFormat {}
-
     export interface downloadInfoResponse extends Partial<videoInfo> {
         error?: string;
     }
