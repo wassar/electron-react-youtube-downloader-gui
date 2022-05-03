@@ -1,9 +1,9 @@
-import { MoreVideoDetails, videoInfo, Author } from "ytdl-core";
+import { MoreVideoDetails, videoInfo, Author, videoFormat } from "ytdl-core";
 import { FileResult } from "tmp";
 import { IncomingMessage } from "http";
 
 declare global {
-    interface downloadError {
+    export interface downloadError {
         error: string;
     }
 
@@ -19,6 +19,7 @@ declare global {
     }
 
     export interface appSettings {
+        id?: number;
         ui_mode: "system" | "dark" | "light";
         downloads_path: string;
     }
@@ -37,17 +38,35 @@ declare global {
         format: string;
         type: string;
         download_path?: string;
+        download_progress?: number;
+        status?:
+            | "pending"
+            | "downloading"
+            | "processing"
+            | "complete"
+            | "error";
+        error?: string;
+    }
+
+    export interface downloadSyncProps {
+        totalFileSize: number;
+        downloadedSize: number;
+        percentage: number;
     }
 
     export interface vidDetails extends MoreVideoDetails {}
     export interface vidInfo extends videoInfo {}
     export interface vidAuthor extends Author {}
-
+    export interface vidFormat extends videoFormat {}
     export interface downloadInfoResponse extends Partial<videoInfo> {
         error?: string;
     }
 
     export type ResponseIncomingMessage = IncomingMessage;
     export type tmpFile = FileResult;
+
+    export type mediaType = "audio" | "video";
+    export type mediaFormat = "mp4" | "mp3" | "webm";
+    export type downloadSync = (p: downloadSyncProps) => any;
 }
 export {};

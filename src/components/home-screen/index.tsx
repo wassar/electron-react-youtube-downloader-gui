@@ -6,15 +6,24 @@ import {
     SettingsOutlined as SettingsIcon,
 } from "@mui/icons-material";
 
-import { TabPanel, DownloadHistory, Settings } from "..";
+import { TabPanel, DownloadHistory, Settings, NewDownloadDialog } from "..";
 
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
     const [currentTab, setCurrentTab] = useState(0);
+    const [dialogOpen, setDialogOpenOpen] = useState(false);
 
     const handleTabChnage = (e: SyntheticEvent, tabId: number) => {
-        setCurrentTab(tabId);
+        tabId !== 1 && setCurrentTab(tabId);
+    };
+
+    const handleDialogClose = () => {
+        setDialogOpenOpen(false);
+    };
+
+    const handleNewDownload = () => {
+        setDialogOpenOpen(true);
     };
 
     return (
@@ -27,19 +36,21 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                     onChange={handleTabChnage}
                 >
                     <Tab icon={<HomeIcon />} aria-label="Home" />
-                    <Tab icon={<NewDownloadIcon />} aria-label="new download" />
+                    <Tab
+                        icon={<NewDownloadIcon />}
+                        aria-label="new download"
+                        onClick={handleNewDownload}
+                    />
                     <Tab icon={<SettingsIcon />} aria-label="settings" />
                 </Tabs>
             </Box>
             <TabPanel index={0} currentTab={currentTab}>
                 <DownloadHistory />
             </TabPanel>
-            <TabPanel index={1} currentTab={currentTab}>
-                NEW DOWNLOAD
-            </TabPanel>
             <TabPanel index={2} currentTab={currentTab}>
                 <Settings />
             </TabPanel>
+            <NewDownloadDialog open={dialogOpen} close={handleDialogClose} />
         </Box>
     );
 };

@@ -28,6 +28,5 @@ export const IconMenuItem: React.FC<MenuActionItemProps> = ({
     >
         <ListItemIcon>{Icon}</ListItemIcon>
         <Typography> {text}</Typography>
-        <Divider component="li" />
     </MenuItem>
 );

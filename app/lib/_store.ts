@@ -31,6 +31,7 @@ export class Store {
                 table.string("type");
                 table.timestamp("downloaded_at");
                 table.string("download_path");
+                table.string("status");
             });
         }
 
@@ -47,7 +48,9 @@ export class Store {
     }
 
     async getSettings(): Promise<appSettings> {
-        return await this.db("app_settings").select().first();
+        return await this.db("app_settings")
+            .select("downloads_path", "ui_mode")
+            .first();
     }
 
     async updateSettings(newSettings: Partial<appSettings>) {
