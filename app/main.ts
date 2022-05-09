@@ -1,10 +1,8 @@
-import isDev from "electron-is-dev";
 import path from "path";
 import { app, BrowserWindow, ipcMain, shell, Event } from "electron";
 import { pathSelect } from "./utils";
 import * as handle from "./core";
-
-require("dotenv").config();
+import { browserWindowDefaults } from "./utils";
 
 if (require("electron-squirrel-startup")) {
     app.quit();
@@ -13,11 +11,11 @@ if (require("electron-squirrel-startup")) {
 let mainWindow: BrowserWindow;
 
 const createWindow = async () => {
-    const { APP_WINDOW_WIDTH, APP_WINDOW_HEIGHT } = process.env;
+    const { width, height, resizable } = browserWindowDefaults;
 
     mainWindow = new BrowserWindow({
-        width: Number(APP_WINDOW_WIDTH),
-        height: Number(APP_WINDOW_HEIGHT),
+        width: width,
+        height: height,
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
@@ -26,9 +24,9 @@ const createWindow = async () => {
     });
 
     //disable window resize
-    mainWindow.resizable = false;
+    mainWindow.resizable = resizable;
 
-    if (isDev) {
+    if (process.env.ELECTRON_ENV === "dev") {
         mainWindow.loadURL("http://localhost:3000/");
         // Open the DevTools.
         mainWindow.webContents.openDevTools();

@@ -1,6 +1,6 @@
 import knex, { Knex } from "knex";
 import path from "path";
-import { defaults } from "../utils";
+import { appSettingsDefaults as defaults } from "../utils";
 
 export class Store {
     private db: Knex;
