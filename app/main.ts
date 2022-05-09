@@ -27,11 +27,12 @@ const createWindow = async () => {
     mainWindow.resizable = resizable;
 
     if (process.env.ELECTRON_ENV === "dev") {
-        mainWindow.loadURL("http://localhost:3000/");
         // Open the DevTools.
         mainWindow.webContents.openDevTools();
+        mainWindow.loadURL("http://localhost:3000/");
     } else {
-        mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
+        mainWindow.loadFile(path.join(__dirname, "index.html"));
+        mainWindow.webContents.openDevTools();
     }
 
     //opening links in new window

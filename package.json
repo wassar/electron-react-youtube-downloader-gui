@@ -2,7 +2,7 @@
     "name": "tdd",
     "private": true,
     "version": "0.0.0",
-    "main": "build/main.js",
+    "main": "dist/main.js",
     "scripts": {
         "test": "jest",
         "dev": "vite",
@@ -10,7 +10,7 @@
         "preview": "vite preview",
         "electron:build": "rm -rf build && tsc --project tsconfig.electron.json",
         "start": "rm -rf build && tsc --project tsconfig.electron.json && cross-env ELECTRON_ENV=dev electron-forge start",
-        "package": "electron-forge package",
+        "package": "npm run build && tsc --project tsconfig.electron.json && electron-forge package",
         "make": "electron-forge make"
     },
     "dependencies": {

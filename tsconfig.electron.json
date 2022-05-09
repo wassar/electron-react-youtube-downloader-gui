@@ -1,22 +1,20 @@
 {
     "compilerOptions": {
-        "target": "ES2016",
         "allowJs": true,
         "module": "commonjs",
         "noImplicitAny": true,
+        "sourceMap": true,
         "baseUrl": ".",
-        "outDir": "build",
+        "outDir": "dist",
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "esModuleInterop": true,
-        //"experimentalDecorators": true,
-        //"emitDecoratorMetadata": true,
         "paths": {
             "*": ["node_modules/*"]
         },
         "types": ["node", "jest"],
         "typeRoots": ["node_modules/@types"]
     },
-    "include": ["app/**/*"],
+    "include": ["app"],
     "exclude": ["node_modules"]
 }
