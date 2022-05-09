@@ -71,7 +71,7 @@ ipcMain.on("settings:select-download-path", async (e) => {
 
 ipcMain.on("history:get", handle.getHistory);
 ipcMain.on("settings:get", handle.getSettings);
-ipcMain.on("settings:update", handle.getHistory);
+ipcMain.on("settings:update", handle.updateSettings);
 
 ipcMain.on("download:info", handle.newDownloadInfo);
 ipcMain.on("download:start", handle.downloadStart);

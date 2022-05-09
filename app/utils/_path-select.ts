@@ -6,7 +6,6 @@ export const pathSelect = async (window: BrowserWindow) => {
         });
         return path[0];
     } catch (e) {
-        console.log("pathselect Errored", e);
         return null;
     }
 };

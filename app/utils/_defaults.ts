@@ -11,3 +11,8 @@ export const browserWindowDefaults = {
     height: 750,
     resizable: false,
 };
+
+export const databasePath = path.join(
+    __dirname,
+    process.env.ELECTRON_ENV === "dev" ? "../../app.db" : "app.db"
+);
