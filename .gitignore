@@ -28,6 +28,5 @@ test
 *.webm
 
 *.dummy*
-
+app.db
 out/
-*.db
