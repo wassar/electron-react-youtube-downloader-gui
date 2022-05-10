@@ -10,7 +10,7 @@ declare global {
     export interface downloadResponse {
         error?: string;
         tmpFile: FileResult;
-        [k: string]: any;
+        //[k: string]: any;
     }
 
     export interface convertResponse {

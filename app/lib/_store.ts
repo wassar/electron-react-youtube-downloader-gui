@@ -1,6 +1,6 @@
 import knex, { Knex } from "knex";
 import path from "path";
-import { defaults } from "../utils";
+import { appSettingsDefaults as defaults, databasePath } from "../utils";
 
 export class Store {
     private db: Knex;
@@ -9,7 +9,7 @@ export class Store {
         this.db = knex({
             client: "sqlite3",
             connection: {
-                filename: path.resolve(__dirname, "../../app.db"),
+                filename: databasePath,
             },
             useNullAsDefault: true,
         });
