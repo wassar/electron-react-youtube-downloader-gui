@@ -11,7 +11,7 @@ node_modules
 dist
 dist-ss
 build
-test/**
+test/*
 *.local
 
 # Editor directories and files

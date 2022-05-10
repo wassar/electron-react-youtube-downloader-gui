@@ -32,7 +32,6 @@ const createWindow = async () => {
         mainWindow.loadURL("http://localhost:3000/");
     } else {
         mainWindow.loadFile(path.join(__dirname, "index.html"));
-        mainWindow.webContents.openDevTools();
     }
 
     //opening links in new window
